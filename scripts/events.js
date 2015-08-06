@@ -12,6 +12,7 @@ function canvasClick (event) {
     } else {
         if (doesNodeOverlap(event.offsetX, event.offsetY)) {
             var clickedNode     =   findClickedNode(event.offsetX, event.offsetY);
+            clickedNode.select();
         }
     }
 }

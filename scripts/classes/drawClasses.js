@@ -7,6 +7,7 @@ function Node (x, y, radius, color) {
     this.color      =   color  || defaultNodeColor;
     this.id         =   ++nodeIdIncrementer;
     this.siblings   =   [];
+    this.selected   =   false;
 }
 
 Node.prototype.draw     =   function () {
@@ -31,4 +32,15 @@ Node.prototype.undraw   =   function () {
     } catch (e) {
         throwError(e);
     }
-}
+};
+
+Node.prototype.select   =   function () {
+    try {
+        if (!this.selected) {
+            selectCircle(nodeyContext, this.x, this.y, this.radius);
+            this.selected   =   true;
+        }
+    } catch (e) {
+
+    }
+};

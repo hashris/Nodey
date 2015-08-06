@@ -35,7 +35,7 @@ function generateUid (separator) {
 function drawCircle (ctx, x, y, radius, color) {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, twoPi);
-    ctx.fillStyle  =   color;
+    ctx.fillStyle       =   color;
     ctx.fill();
     ctx.closePath();
 }
@@ -43,9 +43,18 @@ function drawCircle (ctx, x, y, radius, color) {
 function removeCircle (ctx, x, y, radius) {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, twoPi);
-    ctx.fillStyle  =   defaultCanvasColor;
+    ctx.fillStyle       =   defaultCanvasColor;
     ctx.fill();
     ctx.closePath();
+}
+
+function selectCircle (ctx, x, y, radius) {
+    ctx.beginPath();
+    ctx.arc(x, y, radius+2, 0, twoPi);
+    ctx.strokeStyle     =   "red";
+    ctx.stroke();
+    ctx.closePath();
+    this.selected       =   true;
 }
 
 function doesNodeOverlap (x, y) {
