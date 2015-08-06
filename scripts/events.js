@@ -5,9 +5,13 @@ function bindClickEvent (ctx) {
 }
 
 function canvasClick (event) {
-    if (!pointIsInsideANode(event.offsetX, event.offsetY)) {
+    if (!pointIsInRangeOfAnyNode(event.offsetX, event.offsetY)) {
         var newNode =   null;
-        newNode     =   new Node(event.offsetX, event.offsetY, defaultNodeRadius, "red");
+        newNode     =   new Node(event.offsetX, event.offsetY, defaultNodeRadius, defaultNodeColor);
         newNode.draw();
+    } else {
+        if (doesNodeOverlap(event.offsetX, event.offsetY)) {
+            var clickedNode     =   findClickedNode(event.offsetX, event.offsetY);
+        }
     }
 }

@@ -9,7 +9,7 @@ var $nodeyCanvas        =   $('#nodey-canvas');
 function init () {
     nodeyCanvas         =   document.getElementById("nodey-canvas");
     nodeyContext        =   nodeyCanvas.getContext("2d");
-    setCanvasStyle(nodeyContext, "#F5F5F5");
+    setCanvasStyle(nodeyContext, defaultCanvasColor);
     bindClickEvent(nodeyCanvas);
 }
 

@@ -3,8 +3,9 @@ var twoPi                   =   (2 * Math.PI),
     nodeIdIncrementer       =   -1;
 
 // Canvas default consts
-var defaultNodeColor        =   "red",
-    defaultNodeRadius       =   10;
+var defaultNodeColor        =   "#cacaca",
+    defaultNodeRadius       =   10,
+    defaultCanvasColor      =   "#F5F5F5";
 
 // Element lists
 var nodeIdList              =   [],
@@ -36,26 +37,42 @@ function drawCircle (ctx, x, y, radius, color) {
     ctx.arc(x, y, radius, 0, twoPi);
     ctx.fillStyle  =   color;
     ctx.fill();
+    ctx.closePath();
 }
 
-function doesNodeOverlap (node) {
+function removeCircle (ctx, x, y, radius) {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, twoPi);
+    ctx.fillStyle  =   defaultCanvasColor;
+    ctx.fill();
+    ctx.closePath();
+}
+
+function doesNodeOverlap (x, y) {
     var overlaps            =   false;
     for (var i = 0; i < nodeList.length; ++i) {
         var distBetwCens    =   0;
-       if ( (Math.abs(node.x - nodeList[i].x) <= defaultNodeRadius) && (Math.abs(node.y - nodeList[i].y) <= defaultNodeRadius) ) {
+       if ( (Math.abs(x - nodeList[i].x) <= defaultNodeRadius) && (Math.abs(y - nodeList[i].y) <= defaultNodeRadius) ) {
             overlaps        =   true;
        }
     }
     return overlaps;
 }
 
-function pointIsInsideANode (x, y) {
+function pointIsInRangeOfAnyNode (x, y) {
     var isInside            =   false;
     for (var i = 0; i < nodeList.length; ++i) {
         if ( ( Math.abs(x - nodeList[i].x) <= defaultNodeRadius*2 ) && ( Math.abs(y - nodeList[i].y) <= defaultNodeRadius*2 ) ) {
             isInside    =   true;
         }
     }
-    console.debug(isInside);
     return isInside;
+}
+
+function findClickedNode (x, y) {
+    for (var i = 0; i < nodeList.length; ++i) {
+        if ( ( Math.abs(x - nodeList[i].x) <= defaultNodeRadius*2 ) && ( Math.abs(y - nodeList[i].y) <= defaultNodeRadius*2 ) ) {
+            return nodeList[i];
+        }
+    }
 }
