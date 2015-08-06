@@ -5,5 +5,9 @@ function bindClickEvent (ctx) {
 }
 
 function canvasClick (event) {
-    console.debug(isPointInsideANode(event.offsetX, event.offsetY));
+    if (!pointIsInsideANode(event.offsetX, event.offsetY)) {
+        var newNode =   null;
+        newNode     =   new Node(event.offsetX, event.offsetY, defaultNodeRadius, "red");
+        newNode.draw();
+    }
 }
