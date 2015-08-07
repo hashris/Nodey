@@ -5,11 +5,13 @@ var twoPi                   =   (2 * Math.PI),
 // Canvas default consts
 var defaultNodeColor        =   "#cacaca",
     defaultNodeRadius       =   10,
-    defaultCanvasColor      =   "#F5F5F5";
+    defaultCanvasColor      =   "#F5F5F5",
+    defaultSelectColor      =   "#00FF00";
 
 // Element lists
 var nodeIdList              =   [],
-    nodeList                =   [];
+    nodeList                =   [],
+    selectedNodeIdList      =   [];
 
 
 
@@ -20,6 +22,9 @@ function setCanvasStyle (ctx, bgColor) {
 
 function throwError (errorString) {
     console.error(errorString);
+}
+function throwWarning (warningString) {
+    console.warn(warningString);
 }
 
 function generateUid (separator) {
@@ -48,13 +53,18 @@ function removeCircle (ctx, x, y, radius) {
     ctx.closePath();
 }
 
+// 
 function selectCircle (ctx, x, y, radius) {
     ctx.beginPath();
     ctx.arc(x, y, radius+2, 0, twoPi);
-    ctx.strokeStyle     =   "red";
+    ctx.strokeStyle     =   defaultSelectColor;
     ctx.stroke();
     ctx.closePath();
-    this.selected       =   true;
+}
+
+function unselectCircle (ctx, x, y, radius) {
+    removeCircle(ctx, x, y, radius+3);
+    drawCircle(ctx, x, y, radius, defaultNodeColor);
 }
 
 function doesNodeOverlap (x, y) {
@@ -81,6 +91,14 @@ function pointIsInRangeOfAnyNode (x, y) {
 function findClickedNode (x, y) {
     for (var i = 0; i < nodeList.length; ++i) {
         if ( ( Math.abs(x - nodeList[i].x) <= defaultNodeRadius*2 ) && ( Math.abs(y - nodeList[i].y) <= defaultNodeRadius*2 ) ) {
+            return nodeList[i];
+        }
+    }
+}
+
+function nodeHavingId (id) {
+    for (var i = 0; i < nodeList.length; ++i) {
+        if (nodeList[i].id === id) {
             return nodeList[i];
         }
     }

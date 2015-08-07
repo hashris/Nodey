@@ -10,7 +10,7 @@ function Node (x, y, radius, color) {
     this.selected   =   false;
 }
 
-Node.prototype.draw     =   function () {
+Node.prototype.draw         =   function () {
     try {
         if (!this.x || !this.y) { throw "X, Y location not specified. Cannot draw node." }
         else if (nodeIdList.indexOf(this.id) !== -1) { throw "Node having same id exists. Cannot draw node." }
@@ -26,7 +26,7 @@ Node.prototype.draw     =   function () {
     }
 };
 
-Node.prototype.undraw   =   function () {
+Node.prototype.undraw       =   function () {
     try {
         removeCircle(nodeyContext, this.x, this.y, this.radius);
     } catch (e) {
@@ -34,13 +34,30 @@ Node.prototype.undraw   =   function () {
     }
 };
 
-Node.prototype.select   =   function () {
+Node.prototype.selectNode   =   function () {
     try {
-        if (!this.selected) {
+        if (this.selected) {
+            throw "Node already selected. Cannot select node.";
+        } else {
             selectCircle(nodeyContext, this.x, this.y, this.radius);
-            this.selected   =   true;
+            this.selected               =   true;
+            selectedNodeIdList.push(this.id);
         }
     } catch (e) {
+        throwError(e);
+    }
+};
 
+Node.prototype.unselectNode =   function () {
+    try {
+        if (!this.selected) {
+            throw "Node not selected. Cannot unselect node."
+        } else {
+            unselectCircle(nodeyContext, this.x, this.y, this.radius);
+            this.selected               =   false;
+            selectedNodeIdList.splice(selectedNodeIdList.indexOf(this.id), 1);
+        }
+    } catch (e) {
+        throwError(e);
     }
 };

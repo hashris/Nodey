@@ -6,11 +6,15 @@ var nodeyCanvas         =   null,
 var $nodeyCanvas        =   $('#nodey-canvas');
 
 
+$(document).ready(function () {
+    init();
+});
+
 function init () {
     nodeyCanvas         =   document.getElementById("nodey-canvas");
     nodeyContext        =   nodeyCanvas.getContext("2d");
-    setCanvasStyle(nodeyContext, defaultCanvasColor);
-    bindClickEvent(nodeyCanvas);
+    modeButton          =   document.getElementById("mode-button");
+    setCanvasStyle(nodeyContext, defaultCanvasColor);       // utils.js
+    bindClickEvent(nodeyCanvas);                            // events.js
+    initModeButton(modeButton);                             // events.js
 }
-
-//Continue at utils, isPointInsideANode
