@@ -32,7 +32,9 @@ function canvasConnect (event) {
                 clickedNode.selectNode();
             } else if (selectedNodeIdList.length === 1) {
                 var prevNode    =   nodeHavingId(selectedNodeIdList[0]);
-                //TODO - Draw connector from prevNode to clickedNode
+                var bone        =   new Bone(prevNode, clickedNode);
+                prevNode.unselectNode();
+                bone.draw();
             }
         }
     } else {

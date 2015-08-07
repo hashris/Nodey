@@ -1,12 +1,14 @@
 // General Consts
 var twoPi                   =   (2 * Math.PI),
-    nodeIdIncrementer       =   -1;
+    nodeIdIncrementer       =   -1,
+    overrideArg             =   true;
 
 // Canvas default consts
 var defaultNodeColor        =   "#cacaca",
     defaultNodeRadius       =   10,
     defaultCanvasColor      =   "#F5F5F5",
-    defaultSelectColor      =   "#00FF00";
+    defaultSelectColor      =   "#00FF00",
+    defaultBoneColor        =   "0000FF";
 
 // Element lists
 var nodeIdList              =   [],
@@ -16,15 +18,21 @@ var nodeIdList              =   [],
 
 
 // Util fns
-function setCanvasStyle (ctx, bgColor) {
-    $('#nodey-canvas').css('background-color', bgColor);
-}
 
 function throwError (errorString) {
     console.error(errorString);
 }
+
 function throwWarning (warningString) {
     console.warn(warningString);
+}
+
+function nodeHavingId (id) {
+    for (var i = 0; i < nodeList.length; ++i) {
+        if (nodeList[i].id === id) {
+            return nodeList[i];
+        }
+    }
 }
 
 function generateUid (separator) {
@@ -37,6 +45,11 @@ function generateUid (separator) {
 
 
 //Canvas fns
+
+function setCanvasStyle (ctx, bgColor) {
+    $('#nodey-canvas').css('background-color', bgColor);
+}
+
 function drawCircle (ctx, x, y, radius, color) {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, twoPi);
@@ -53,19 +66,25 @@ function removeCircle (ctx, x, y, radius) {
     ctx.closePath();
 }
 
-// 
 function selectCircle (ctx, x, y, radius) {
+    drawCircle(ctx, x, y, radius, defaultSelectColor);
+}
+
+function unselectCircle (ctx, x, y, radius) {
+    drawCircle(ctx, x, y, radius, defaultNodeColor);
+}
+
+function drawLine (ctx, x1, y1, x2, y2, color) {
     ctx.beginPath();
-    ctx.arc(x, y, radius+2, 0, twoPi);
-    ctx.strokeStyle     =   defaultSelectColor;
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle     =   color;
     ctx.stroke();
     ctx.closePath();
 }
 
-function unselectCircle (ctx, x, y, radius) {
-    removeCircle(ctx, x, y, radius+3);
-    drawCircle(ctx, x, y, radius, defaultNodeColor);
-}
+
+// Canvas Math fns
 
 function doesNodeOverlap (x, y) {
     var overlaps            =   false;
@@ -96,10 +115,3 @@ function findClickedNode (x, y) {
     }
 }
 
-function nodeHavingId (id) {
-    for (var i = 0; i < nodeList.length; ++i) {
-        if (nodeList[i].id === id) {
-            return nodeList[i];
-        }
-    }
-}
