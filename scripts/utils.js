@@ -8,7 +8,8 @@ var defaultNodeColor        =   "#cacaca",
     defaultNodeRadius       =   10,
     defaultCanvasColor      =   "#F5F5F5",
     defaultSelectColor      =   "#00FF00",
-    defaultBoneColor        =   "0000FF";
+    defaultBoneColor        =   "#FDFCEE",
+    defaultMuscleColor      =   "#E74C3C";
 
 // Element lists
 var nodeIdList              =   [],
@@ -78,11 +79,32 @@ function drawLine (ctx, x1, y1, x2, y2, color) {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
+    ctx.lineWidth = 2;
     ctx.strokeStyle     =   color;
     ctx.stroke();
     ctx.closePath();
 }
 
+
+function drawMuscle(ctx, x1, y1, x2, y2, color) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    var tempx=Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2))/3;
+    var tempy=0;
+    if(y2>y1){
+        tempy=2
+    }else if(y2<y1){
+        tempy=-2
+    }else{
+        tempy=2;
+    }
+    ctx.quadraticCurveTo(x1+tempx, y1+tempy, x2, y2);
+    ctx.lineTo(x2, y2);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle     =   color;
+    ctx.stroke();
+    ctx.closePath();
+}
 
 // Canvas Math fns
 

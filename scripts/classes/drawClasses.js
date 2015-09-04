@@ -84,3 +84,23 @@ Bone.prototype.draw         =   function () {
         
     }
 };
+
+function Muscle(startNode,endNode,color){
+    this.startNode      =   startNode;
+    this.endNode        =   endNode;
+    this.color          =   color || defaultMuscleColor;
+}
+
+Muscle.prototype.draw         =   function () {
+    if (this.startNode.siblings.indexOf(this.endNode.id) === -1) {
+        actualStartX            =   this.startNode.x;
+        actualEndX              =   this.endNode.x;
+        actualStartY            =   this.startNode.y;
+        actualEndY              =   this.endNode.y;
+        drawMuscle(nodeyContext, actualStartX, actualStartY, actualEndX, actualEndY, this.color);
+        this.startNode.siblings.push(this.endNode.id);
+        this.endNode.siblings.push(this.startNode.id);
+    } else {
+        
+    }
+};

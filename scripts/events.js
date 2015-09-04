@@ -6,6 +6,8 @@ function bindClickEvent (ctx) {
             canvasClick(event);
         } else if (mode === "connect") {
             canvasConnect(event);
+        } else if (mode === "muscle"){
+            connectMuscle(event);
         } else {
             throwError("Mode not defined. Click event does nothing.");
         }
@@ -42,6 +44,27 @@ function canvasConnect (event) {
     }
 }
 
+function connectMuscle(event){
+        // Select or unselect node if point is inside another node
+    if (doesNodeOverlap(event.offsetX, event.offsetY)) {
+        var clickedNode     =   findClickedNode(event.offsetX, event.offsetY);
+        if (clickedNode.selected) {
+            clickedNode.unselectNode();
+        } else {
+            if (selectedNodeIdList.length == 0) {
+                clickedNode.selectNode();
+            } else if (selectedNodeIdList.length === 1) {
+                var prevNode    =   nodeHavingId(selectedNodeIdList[0]);
+                var muscle        =   new Muscle(prevNode, clickedNode);
+                prevNode.unselectNode();
+                muscle.draw();
+            }
+        }
+    } else {
+        throwWarning("Clicked outside node range. Doing nothing.");
+    }
+}
+
 
 // Mode button
 function initModeButton (button) {
@@ -50,6 +73,9 @@ function initModeButton (button) {
             mode    =   "connect";
             button.firstChild.data      =   "Connect Mode";
         } else if (mode === "connect") {
+            mode    =   "muscle";
+            button.firstChild.data      =   "Muscle Mode";
+        } else if (mode === "muscle") {
             mode    =   "add";
             button.firstChild.data      =   "Draw Mode";
         }
